@@ -14,4 +14,5 @@ Repositorio para la materia de Análisis Exploratorio y Curación de Datos de #D
     * `Ejercicio-tablas.ipynb`: Ejercicio de tablas de peso
 
 ## La resolución de los Ejercicios se realizó con Anaconda 1.9.7/Jupyter 
+## La resolución de los Ejercicios está en las mismas notebooks
 ### Se requiere tener instalado el paquete FOLIUM
