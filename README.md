@@ -30,4 +30,4 @@ Repositorio para la materia de Análisis Exploratorio y Curación de Datos de #D
 [I 00:18:19.858 NotebookApp] http://(9f82e7153437 or 127.0.0.1):8888/?token=e99eb5317fb2549248cf0dcc14af914e40929858ee901559
 4. Ingresar en el navegador http://127.0.0.1:8888/?token=e99eb5317fb2549248cf0dcc14af914e40929858ee901559
 5. IMPORTANTE: el token mostrado es un ejemplo, copiar el que resulta de la propia ejecución
-
+6. Luego ingresar en work y en Notebooks
