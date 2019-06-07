@@ -1,0 +1,130 @@
+---
+title: "practico1_flights"
+integrantes: "Mario Sgro, Marcelo Leon, Juan Manuel Villarreal"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+## Practico 1: Entregar un Rmd donde se encuentren todos los vuelos que:
+
+- Que arribaron con un retraso de mas de dos horas.
+- Volaron hacia Houston (IAH o HOU)
+- Fueron operados por United, American o Delta.
+- Salieron en Verano (Julio, Agosto y Septiembre)
+- Arrivaron mas de dos horas tarde, pero salieron bien.
+- Salieron entre medianoche y las 6 am.
+
+***
+## Descrbiendo los datos
+year:  ------|
+month: ------|---  Date of departure
+day:   ------|
+
+dep_time ----|---  Actual departure and arrival times (format HHMM or HMM), local tz
+arr_time ----|
+ 
+sched_dep_time --|--- Scheduled departure and arrival times (format HHMM or HMM), local tz
+sched_arr_time --|  
+
+dep_delay ----|--- Departure and arrival delays, in  minutes. Negative times represent early departures/arrivals
+arr_delay ----|
+
+hour   ----|--- Time of scheduled departure broken into hour and minutes.
+minute ----|
+
+carrier ----   Two letter carrier abbreviation. See airlines() to get name
+tailnum ----   Plane tail number
+flight  ----   Flight number
+
+origin  ---| --- Origin and destination. See airports() for additional metadata
+dest    ---|
+
+air_time  ---   Amount of time spent in the air, in minutes
+distance  ---   Distance between airports, in miles
+time_hour ---   Scheduled date and hour of the flight as a POSIXct date. Along withorigin, can beused to join flights data to weather data.
+
+
+```{r flights}
+library(nycflights13)
+fligths<-nycflights13::flights
+fligths
+```
+
+
+```{r flights}
+str(flights)
+```
+
+
+
+***
+## Encontrando las dimensiones y los estadisticos mas importantes
+
+A continuacion daremos dimension a los datos, y visualizaremos los datos estadisticos descriptivos mas representativos
+
+```{r dim}
+dim(flights)
+```
+
+
+```{r summary}
+summary(flights)
+```
+
+Para obtener los vuelos que arribaron con mas de 2 horas de demora, incluimos la libreria "dplyr" para poder ejecutar filtros sobre el data frame.
+
+- TODOS los vuelos que arribaron con un retraso de mas de dos horas.
+```{r filter}
+library(dplyr)
+origianl <- flights
+filter(flights, !is.na(arr_delay) & arr_delay > 120)
+```
+```{r filter}
+summary(filter(flights, !is.na(arr_delay) & arr_delay > 120)$arr_delay ) 
+```
+
+
+- TODOS los vuelos que volaron hacia Houston (IAH o HOU)
+```{r filter}
+filter(flights, dest %in% c("IAH", "HOU"))
+```
+
+
+- TODOS los vuelos que fueron operados por United, American o Delta
+```{r filter}
+airlines<-nycflights13::airlines
+airlines
+filter(flights, carrier %in% c("AA", "DL", "UA"))
+```
+
+
+
+- TODOS los vuelos que salieron en Verano (Julio, Agosto y Septiembre)
+```{r filter}
+summer_fly <-filter(flights, between(time_hour, as.POSIXct('2013-06-21 00:00:00 GMT'), as.POSIXct('2013-09-21 00:00:00 GMT')))
+summer_fly
+```
+```{r filter}
+summary(summer_fly$time_hour)
+summer_fly$time_hour[9888]
+```
+
+- TODOS los vuelos que arrivaron mas de dos horas tarde, pero salieron bien
+```{r filter}
+filter(flights, dep_delay == 0 & arr_delay > 120)
+```
+
+
+
+- TODOS los vuelos que salieron entre medianoche y las 6 am
+```{r filter}
+filter(flights, !is.na(dep_time) & between(dep_time, 1, 600))
+```
+
+```{r filter}
+summary(filter(flights, !is.na(dep_time) & between(dep_time, 1, 600))$dep_time ) 
+```
